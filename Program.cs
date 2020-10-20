@@ -20,78 +20,57 @@ namespace WebScraper
  
         public static void WebDataScrape(string url)
         {
-            string initialUrl = url;
             try
             {
-                //Get the content of the URL from the Web
-                // url = "http://3.138.153.76/";
                 var web = new HtmlWeb();
                 var doc = web.Load(url);
 
                 HtmlNode[] nodes = doc.DocumentNode.SelectNodes("//a[@href]").ToArray();  
                 HashSet<string> hrefList = new HashSet<string>();
                 HashSet<string> ignoreList = new HashSet<string>();
-                // .Where(x=>x.InnerHtml.Contains("div2"))
-                System.Console.WriteLine("Each href on this page is:");
-                foreach(HtmlNode n in nodes)
-                {
-                    string href = n.Attributes["href"].Value;
-                    System.Console.WriteLine($"{href}");
-                }
                 foreach (HtmlNode n in nodes)  
                 {  
-                    // sets href to one of the hrefs in nodes 
+                    // Gets the actual value of the link and sets it to href
                     string href = n.Attributes["href"].Value;
-                    System.Console.WriteLine($"{href}");
-                    if(href != url && !ignoreList.Contains(href))
+                    if(!ignoreList.Contains(href))
                     {
-                        if(Char.IsLetter(href[0]))
+                        string root = "";
+                        int count = 0;
+                        string urlVal = "";
+                        if(href.Contains("%3Cscript%3E"))
                         {
-                            System.Console.WriteLine("If");
-                            System.Console.WriteLine("The url is:");
-                            System.Console.WriteLine(href);
-                            ignoreList.Add(href);
-                            // WebDataScrape(href);
-                            doc = web.Load(href);
-                            var hasDownload = doc.DocumentNode.Descendants()
-                                .Where(n => n.Attributes.Any(a => a.Value.Contains("div")));
-                            if(hasDownload != null)
-                            {
-                                System.Console.WriteLine("This has a download link!!!!");
-                            }
-                            // nodes = doc.DocumentNode.SelectNodes("//a[@href]").ToArray();
+                            System.Console.WriteLine("This link contains JavaScript");
+                        }
+                        if(href.Substring(0, 4) == "http")
+                        {
+                            System.Console.WriteLine("This is a link to a different page");
+                            urlVal = href;
                         }
                         else if(href[0] == '/')
                         {
-                            System.Console.WriteLine("Else if");
-                            var found = initialUrl.IndexOf(".com");
-                            string root = initialUrl.Substring(0, found + 4);
-                            System.Console.WriteLine("The root and url is:");
-                            string urlVal = root + href;
-
-                            System.Console.WriteLine(urlVal);
-                            ignoreList.Add(urlVal);
-                            // WebDataScrape(urlVal);
-                            doc = web.Load(urlVal);
-                            nodes = doc.DocumentNode.SelectNodes("//a[@href]").ToArray();
-                            var hasDownload = doc.DocumentNode.Descendants()
-                                .Where(n => n.Attributes.Any(a => a.Value.Contains("div")));
-                            if(hasDownload != null)
+                            System.Console.WriteLine("This link is on the same page");
+                            for(var c = 0; c < url.Length;c++)
                             {
-                                System.Console.WriteLine("This has a download link!!!!");
+                                if(url[c] == '/')
+                                {
+                                    count++;
+                                }
+                                if(count < 3)
+                                {
+                                    root = url;
+                                }
+                                else if(count == 3)
+                                {
+                                    root = url.Substring(0, c);
+                                    break;
+                                }
                             }
-                        }
-                        // else
-                        // {
-                        //     System.Console.WriteLine("Else");
-                        //     System.Console.WriteLine("The url is:");
-                        //     System.Console.WriteLine(href);
-                        //     ignoreList.Add(href);
-                        //     WebDataScrape(href);
-                        // }
+                            urlVal = root + href;
+                        }   
+                        ignoreList.Add(urlVal);
+                        doc = web.Load(urlVal);
+                        System.Console.WriteLine(urlVal);
                     }
-                    
-                    // hrefList.Add(href);
                 } 
                 Console.WriteLine("\r\nPlease press a key...");
                 Console.ReadKey();
