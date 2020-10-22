@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/site.css">
+    
     <title>Scam Scraper</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -16,14 +16,14 @@
         });
     </script>
         <partial name="LoadPagePartial">
-    
+    <link rel="stylesheet" href="~/css/site.css">
 </head>
 <body>
     <div class="container-fluid outer-container" style="width: 100%; height: 100%; justify-content: center; align-items: center;">
         <form asp-action="CheckUrl" asp-controller="Home" method="post" class="form">
 
             <div class="form-group row offset-sm-3">
-                <label for="" class="col-form-label-sm-2 text-info" style="margin-left: 1em; margin-right: 1em;">Type URL here: </label>
+                <label for="" class="col-form-label-sm-2" style="margin-left: 1em; margin-right: 1em;">Type URL here: </label>
                 <input type="text" name="url" class="form-item form-control-sm col-sm-6 border border-info" required>
             </div>
 
@@ -57,8 +57,8 @@
                     }
                 </div>
             </div>
-        }
         <div class="messages offset-sm-3">
+            <p>External Links: @ViewBag.ExternalLinksCount</p>
             <p>@ViewBag.HasScript</p>
             <p>@ViewBag.HasRickRoll</p>
             <p>@ViewBag.HasIFrame</p>
@@ -67,8 +67,8 @@
             <p>@ViewBag.HasUrlIFrame</p>
             <p>@ViewBag.AHHH</p>
             @* <img src="@ViewBag.ScreenShot"> *@
-            
         </div>
+        }
         <form asp-action="Reset" asp-controller="Home" method="post" class="form">
             <div class="row form-group offset-sm-3">
                 <input type="submit" value="Reset" class="submit btn btn-info col-sm-2">

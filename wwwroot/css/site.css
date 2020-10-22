@@ -71,8 +71,8 @@ body {
 }
 
 body{
-  background-color: rgb(218, 206, 218);
-  /* background-image: url(wwwroot\Images\background1.jpg); */
+  /* background-color: rgb(218, 206, 218); */
+  background-image: url("../Images/background1.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -101,14 +101,22 @@ body{
   display: flex;
 }
 h3{
+  color: aqua;
   margin-top: 10px;
 }
 .meter{
   margin-bottom: 10px;
+}
+p{
+  color: aqua;
 }
 
 /* --------------------------------------------------- */
 
 .form-group{
   margin-bottom: 20px;
+}
+
+label{
+  color: aqua;
 }

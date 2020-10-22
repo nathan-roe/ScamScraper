@@ -14,8 +14,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 // For HashSet
-
-
 namespace ScamScraper.Controllers
 {
     public class HomeController : Controller
@@ -24,9 +22,7 @@ namespace ScamScraper.Controllers
         private MyContext _context;
         private int count; //🖖 count edited to be global
         // I respect the emoji
-
-
-
+        private int ExternalLinksCount;
 
         public HomeController(MyContext context)
         {   
@@ -59,6 +55,8 @@ namespace ScamScraper.Controllers
                 HttpContext.Session.SetString("Response", "This link is not safe!");
             }
             ViewBag.Response = HttpContext.Session.GetString("Response");
+            
+            ViewBag.ExternalLinksCount = HttpContext.Session.GetInt32("ExternalLink");
             return View("Index");
         }
 
@@ -82,59 +80,37 @@ namespace ScamScraper.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
-
-
-
-
         //-----------METHODS --------------
-        // private void LinkCountSeverity() //ADDED LINK COUNT SEVERITY METHOD
-        // {
-        //     switch(count)
-        //     {
-        //         case (0):
-        //             System.Console.WriteLine("Either there were no links in this page or this method was accessed incorrectly.");
-        //             HttpContext.Session.SetInt32("LinkCountSeveritySession", count);
-        //             break;
+        private void LinkCountSeverity() //ADDED LINK COUNT SEVERITY METHOD
+        {
 
-        //         case(<=7):
-        //             System.Console.WriteLine("Links are 7 or less. You gucci");
-        //             HttpContext.Session.SetInt32("LinkCountSeveritySession", count);
-        //             break;
+            if(ExternalLinksCount==0)
+            {
+                System.Console.WriteLine("Either there were no links in this page or this method was accessed incorrectly.");
+                HttpContext.Session.SetInt32("LinkCountSeveritySession", ExternalLinksCount);
+            }
+            else if(ExternalLinksCount <= 7)
+            {
+                System.Console.WriteLine("Links are 7 or less. You gucci");
+                HttpContext.Session.SetInt32("LinkCountSeveritySession", ExternalLinksCount);
+            }
+            else if(ExternalLinksCount <= 30)
+            {
+                System.Console.WriteLine("Links are 30 or less.");
+                HttpContext.Session.SetInt32("LinkCountSeveritySession", ExternalLinksCount);
+            }
+            else if(ExternalLinksCount <= 50)
+            {
+                System.Console.WriteLine("Links are 50 or less.");
+                HttpContext.Session.SetInt32("LinkCountSeveritySession", ExternalLinksCount);
+            }
+            else
+            {
+                System.Console.WriteLine("There are over 50 links.");
+                HttpContext.Session.SetInt32("LinkCountSeveritySession", ExternalLinksCount);
+            }
 
-        //         case(<=30):
-        //             System.Console.WriteLine("Links are 30 or less.");
-        //             HttpContext.Session.SetInt32("LinkCountSeveritySession", count);
-        //             break;
-
-        //         case(>=50):
-        //             System.Console.WriteLine("Links are 50 or more.");
-        //             HttpContext.Session.SetInt32("LinkCountSeveritySession", count);
-        //             break;
-
-        //         default:
-        //             System.Console.WriteLine("Something went wrong with linkaccountseverity()");
-        //             HttpContext.Session.SetInt32("LinkCountSeveritySession", count=0);
-        //             break;
-
-        //     }
-
-
-            // if(count==0 || count? == null)
-            // {
-            //     System.Console.WriteLine("Either there were no links in this page or this method was accessed incorrectly.");
-            //     HttpContext.Session.SetInt32("LinkCountSeveritySession", count);
-            // }
-            // else if(count <= 7)
-            // {
-            //     System.Console.WriteLine("Links are 7 or less. You gucci");
-            //     HttpContext.Session.SetInt32("LinkCountSeveritySession", count);
-            // }
-
-        // }//end calculateseverity
-
-
-
-
+        }//end calculateseverity
     //-----------------------------------------------------------------------------------------------
     // public void ScreenShot(string url)
     // {
@@ -157,6 +133,7 @@ namespace ScamScraper.Controllers
             HttpContext.Session.SetString("UrlIFrame", "This link could be malicious");
             // HttpContext.Session.SetString("Response", "This link may be malicious.");
         }
+        
         try
         {
             var web = new HtmlWeb();
@@ -208,11 +185,14 @@ namespace ScamScraper.Controllers
                             
                         }
                     }
-
                         if(href.StartsWith("http"))
                         {
                             System.Console.WriteLine("This is a link to a different page");
+                            ExternalLinksCount++; //count how many external links
+
                             urlVal = href;
+
+                            
                         }
                         else if(href[0] == '/')
                         {
@@ -248,6 +228,7 @@ namespace ScamScraper.Controllers
             count ++;
             // HttpContext.Session.SetString("Response", "This link is safe!");
             HttpContext.Session.SetInt32("Score", count);
+            HttpContext.Session.SetInt32("ExternalLink", ExternalLinksCount);
             Console.WriteLine(count);
             return count;
         }
