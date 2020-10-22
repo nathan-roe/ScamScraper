@@ -1,0 +1,7 @@
+
+Check if page on the other side of the link contains Javascript that is deemed bad
+    Figure out how to parse js code
+Check if link contains javascript 
+    if javascript has an auto download feature withing onload
+Hold information in a model that is stored in SQL 
+

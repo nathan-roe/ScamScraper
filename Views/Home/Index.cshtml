@@ -1,8 +1,80 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/site.css">
+    <title>Scam Scraper</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".loader").hide();
+            $(".submit").click(function(){
+                $(".loader").show();
+            });
+        });
+    </script>
+        <partial name="LoadPagePartial">
+    
+</head>
+<body>
+    <div class="container-fluid outer-container" style="width: 100%; height: 100%; justify-content: center; align-items: center;">
+        <form asp-action="CheckUrl" asp-controller="Home" method="post" class="form">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+            <div class="form-group row offset-sm-3">
+                <label for="" class="col-form-label-sm-2 text-info" style="margin-left: 1em; margin-right: 1em;">Type URL here: </label>
+                <input type="text" name="url" class="form-item form-control-sm col-sm-6 border border-info" required>
+            </div>
+
+            <div class="form-group row offset-sm-3">
+                <input type="submit" value="Evaluate" class="submit btn btn-info col-sm-2">
+            </div>
+        </form>
+        @if(ViewBag.Score > 0)
+        {
+            <p class="testedurl offset-sm-3">Scanned @ViewBag.Url</p>
+            <div class="meter offset-sm-3">
+                <div class="meterline">
+                    <div class="safe"></div>
+                    @if(ViewBag.Score <= 1)
+                    {
+                        <h3>@ViewBag.Response</h3><br>
+                    }
+                </div>
+                <div class="meterline">
+                    <div class="questionable"></div>
+                    @if(ViewBag.Score > 1 && ViewBag.Score <=5)
+                    {
+                        <h3>@ViewBag.Response</h3><br>
+                    }
+                </div>
+                <div class="meterline">
+                    <div class="notsafe"></div>
+                    @if(ViewBag.Score > 5)
+                    {
+                        <h3>@ViewBag.Response</h3><br>
+                    }
+                </div>
+            </div>
+        }
+        <div class="messages offset-sm-3">
+            <p>@ViewBag.HasScript</p>
+            <p>@ViewBag.HasRickRoll</p>
+            <p>@ViewBag.HasIFrame</p>
+            <p>@ViewBag.HasError</p>
+            <p>@ViewBag.HasUrlScript</p>
+            <p>@ViewBag.HasUrlIFrame</p>
+            <p>@ViewBag.AHHH</p>
+            @* <img src="@ViewBag.ScreenShot"> *@
+            
+        </div>
+        <form asp-action="Reset" asp-controller="Home" method="post" class="form">
+            <div class="row form-group offset-sm-3">
+                <input type="submit" value="Reset" class="submit btn btn-info col-sm-2">
+            </div>
+        </form>
+        <div class="loader"></div>
+    </div>
+</body>
+</html>
