@@ -23,6 +23,7 @@ namespace ScamScraper.Controllers
         private int count; //🖖 count edited to be global
         // I respect the emoji
         private int ExternalLinksCount;
+        //git test
 
         public HomeController(MyContext context)
         {   
