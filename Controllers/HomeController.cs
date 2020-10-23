@@ -262,16 +262,17 @@ namespace ScamScraper.Controllers
         //THIS FUNCTION RETURNS A LIST OF EXTERNAL URLS THAT HAVE ENCODINGS
         private List<string> CheckExternalLinks(List<string> urlValues)
         {
-            List<string> URLsWithEncoding = new List<string>();
+            List<string> URLsCouldBeBad = new List<string>();
+            List<string> AllflaggedKeywords = _context.FlaggedKeywords.Select(f => f.FlaggedKeywordWord).ToList();
             
             foreach(var urlVal in urlValues)
             {
                 
-                if(urlVal.Contains("%3C") || urlVal.Contains("%3E") || urlVal.Contains("%3D")) //THIS IS GOING TO BE CHANGED
+                if(AllflaggedKeywords.Any(f => urlVal.Contains(f)))
                 {
-                    System.Console.WriteLine("External links from URL have encodings");
-                    URLsWithEncoding.Add(urlVal);
-                    
+                    // var theKeyword = AllflaggedKeywords.FirstOrDefault(f => urlVal.Contains(urlVal));
+                    System.Console.WriteLine($"External links from URL contains some flagged keywords.");
+                    URLsCouldBeBad.Add(urlVal);
                 }
                 else
                 {
@@ -279,14 +280,16 @@ namespace ScamScraper.Controllers
                 }
                 
             }
-            string AllURLsWithEncoding = "";
-            foreach (var encodedURL in URLsWithEncoding)
+
+            //ADDS ALL URLS IN LIST TO A STRING TO ADD TO SESSION
+            string AllURLsCouldBeBad = "";
+            foreach (var singleURL in URLsCouldBeBad)
             {
-                AllURLsWithEncoding += $"{encodedURL} \n\n";
+                AllURLsCouldBeBad += $">>>{singleURL}\n";
             }
 
-            // HttpContext.Session.SetString("UrlScript", $"External links have some encoding. URL:{AllURLsWithEncoding}");
-            return URLsWithEncoding;
+            HttpContext.Session.SetString("UrlScript", $"External links include some flagged keywords. URL:{AllURLsCouldBeBad}");
+            return URLsCouldBeBad;
         }
 
 
