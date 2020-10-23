@@ -5,7 +5,7 @@
 
 .main{
     margin: auto 0px;
-    width: 700px;
+
 }
 
 label{
@@ -28,7 +28,7 @@ form{
 }
 
 h2{
-    color: aqua;
+    color: orangered;
     margin-bottom: 20px;
 }
 textarea{

@@ -1,5 +1,14 @@
 @using ScamScraper.Models
 @model Comment
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/style.css">
+    <title>Document</title>
+</head>
+<h2>Source</h2>
 <p>@ViewBag.thisMessage.MessageText</p>
 @if(@ViewBag.thisMessage.User == ViewBag.thisUser || ViewBag.thisUser.Admin == true)
 {
@@ -8,6 +17,7 @@
         <input type="submit" value="Delete" class="submit btn btn-info col-sm-2">
     </form>
 }
+<h2>Comments</h2>
 @foreach(Comment c in ViewBag.thisMessage.Comments)
 {       
     <div class="nameCText">
