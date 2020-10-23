@@ -1,0 +1,50 @@
+@using ScamScraper.Models
+@model Message
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container offset-sm-3">
+        <div >
+            <h1>Welcome, @ViewBag.thisUser.FirstName</h1>
+            <form asp-action="Logout" asp-controller="QA" method="post">
+                <input type="submit" value="Logout" class="submit btn btn-info col-sm-1">
+            </form>
+        </div>
+        <div class="main">
+            <div class="messages">
+                <h2>Have a Question? Leave it here!</h2>
+                <form asp-action="AddMessage" asp-controller="QA" method="post">
+                    <textarea asp-for="MessageText" rows="4" cols="60"></textarea>
+                    <span asp-validation-for="MessageText"></span>
+                    <input type="hidden" asp-for="UserId" value="@ViewBag.thisUserId"><br>
+                    <input type="submit" value="Ask" class="submit btn btn-info col-sm-1">
+                </form>
+            </div>
+                @foreach(Message m in ViewBag.AllMessages)
+                {
+                    <div class="message">
+                        <div class="topmessage">
+                            <p>@m.User.FirstName @m.User.LastName</p>
+                            <p>@m.CreatedAt</p>
+                        </div>
+                        <a href="/message/@m.MessageId">Inspect</a>
+                        <p>@m.MessageText</p>
+                        @* @if(@m.User == ViewBag.thisUser || ViewBag.thisUser.Admin == true)
+                        {
+                            <form asp-action="DeleteMessage" method="post">
+                                <input type="hidden" asp-for="MessageId" value="@m.MessageId">
+                                <input type="submit" value="Delete" class="submit btn btn-info col-sm-2">
+                            </form>
+                        } *@
+                    </div>
+                }
+        </div>
+    </div>
+</body>
+</html>

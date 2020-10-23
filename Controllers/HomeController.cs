@@ -23,6 +23,8 @@ namespace ScamScraper.Controllers
         private int count; //🖖 count edited to be global
         // I respect the emoji
         private int ExternalLinksCount;
+        private List<string> ExternalLinksFromURL = new List<string>();
+
 
         public HomeController(MyContext context)
         {   
@@ -65,6 +67,7 @@ namespace ScamScraper.Controllers
         {
             HttpContext.Session.Clear();
             System.Console.WriteLine(url);
+            ExternalLinksFromURL.Clear();
             // System.Console.WriteLine("This is the return of WebDataScrape");
             // System.Console.WriteLine(WebDataScrape(url));
             // ScreenShot(url);
@@ -126,12 +129,22 @@ namespace ScamScraper.Controllers
             HttpContext.Session.SetString("UrlScript", "This link could be malicious");
             // HttpContext.Session.SetString("Response", "This link may be malicious.");
             System.Console.WriteLine("This link could be malicious");
+            count += 5;
+        }
+        if(url.Contains("<script>"))
+        {
+            count+=5;
         }
         if(url.Contains("%3Ciframe%3E"))
         {
             System.Console.WriteLine("This link could be malicious");
             HttpContext.Session.SetString("UrlIFrame", "This link could be malicious");
             // HttpContext.Session.SetString("Response", "This link may be malicious.");
+            count += 3;
+        }
+        if(url.Contains("<iframe>"))
+        {
+            count += 3;
         }
         
         try
@@ -156,23 +169,20 @@ namespace ScamScraper.Controllers
                 if(!ignoreList.Contains(href))
                 {
                     string root = "";
-                    
-                    
-                    
                     string urlVal = "";
                     if(href.Contains("%3Cscript%3E"))
                     {
                         System.Console.WriteLine("This link contains JavaScript");
                         HttpContext.Session.SetString("script", "This page contains links that may be malicious");
                         // HttpContext.Session.SetString("Response", "This links' page may contain malicious links.");
-                        count ++;
+                        
                     }
                     if(href.Contains("%3Ciframe%3E"))
                     {
                         System.Console.WriteLine("This link contains an IFrame");
                         HttpContext.Session.SetString("script", "This link contains an IFrame");
                         // HttpContext.Session.SetString("Response", "This link contains an IFrame");
-                        count++;
+                        
                     }
                     foreach(string rick in rickList)
                     {
@@ -191,6 +201,11 @@ namespace ScamScraper.Controllers
                             ExternalLinksCount++; //count how many external links
 
                             urlVal = href;
+                            System.Console.WriteLine("-----------------------URLVAL-----------------------");
+                            System.Console.WriteLine($"{urlVal}\n\n\n");
+
+                            ExternalLinksFromURL.Add(urlVal);
+                            
 
                             
                         }
@@ -241,6 +256,38 @@ namespace ScamScraper.Controllers
 
         }
     }
+
+
+
+        //THIS FUNCTION RETURNS A LIST OF EXTERNAL URLS THAT HAVE ENCODINGS
+        private List<string> CheckExternalLinks(List<string> urlValues)
+        {
+            List<string> URLsWithEncoding = new List<string>();
+            
+            foreach(var urlVal in urlValues)
+            {
+                
+                if(urlVal.Contains("%3C") || urlVal.Contains("%3E") || urlVal.Contains("%3D")) //THIS IS GOING TO BE CHANGED
+                {
+                    System.Console.WriteLine("External links from URL have encodings");
+                    URLsWithEncoding.Add(urlVal);
+                    
+                }
+                else
+                {
+                    System.Console.WriteLine("This external link has no encoding");
+                }
+                
+            }
+            string AllURLsWithEncoding = "";
+            foreach (var encodedURL in URLsWithEncoding)
+            {
+                AllURLsWithEncoding += $"{encodedURL} \n\n";
+            }
+
+            // HttpContext.Session.SetString("UrlScript", $"External links have some encoding. URL:{AllURLsWithEncoding}");
+            return URLsWithEncoding;
+        }
 
 
     }

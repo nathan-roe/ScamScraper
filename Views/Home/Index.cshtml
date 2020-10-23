@@ -39,21 +39,21 @@
                     <div class="safe"></div>
                     @if(ViewBag.Score <= 1)
                     {
-                        <h3>@ViewBag.Response</h3><br>
+                        <h3 class="saferes">@ViewBag.Response</h3><br>
                     }
                 </div>
                 <div class="meterline">
                     <div class="questionable"></div>
                     @if(ViewBag.Score > 1 && ViewBag.Score <=5)
                     {
-                        <h3>@ViewBag.Response</h3><br>
+                        <h3 class="questionableres">@ViewBag.Response</h3><br>
                     }
                 </div>
                 <div class="meterline">
                     <div class="notsafe"></div>
                     @if(ViewBag.Score > 5)
                     {
-                        <h3>@ViewBag.Response</h3><br>
+                        <h3 class="notsaferes">@ViewBag.Response</h3><br>
                     }
                 </div>
             </div>

@@ -1,0 +1,32 @@
+@using ScamScraper.Models
+@model User
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/style.css">
+    <title>ScamScraper Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Login</h1>
+        </div>
+        <div class="main">
+            <form asp-action="Login" asp-controller="QA"method="post">
+                
+                <label asp-for="Email"></label>
+                <input asp-for="Email">
+                <span asp-validation-for="Email"></span><br>
+                
+                <label asp-for="Password"></label>
+                <input asp-for="Password">
+                <span asp-validation-for="Password"></span><br>
+                <input type="submit" value="Login" class="submit btn btn-info col-sm-2">
+            </form>
+            <p>Need to register? <a href="/qa/register">Register</a></p>
+        </div>
+    </div>
+</body>
+</html>

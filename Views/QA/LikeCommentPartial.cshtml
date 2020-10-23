@@ -1,0 +1,24 @@
+@* @using ScamScraper.Models
+@model Association
+
+@if(c.UserId == ViewBag.thisUser.UserId)
+    {
+        <form asp-action="RemoveComment" asp-controller = "Home" method="post">
+            <input type="hidden" asp-for="CommentId" value="@c.CommentId">
+            <button type="submit">Delete</button>
+        </form>
+    }
+    else if(c.Associations.Any(a => a.User == ViewBag.thisUser))
+    {
+        <form asp-action="RemoveLike" asp-controller = "Home" method="post">
+        <input type="hidden" asp-for="CommentId" value="@c.CommentId">
+            <button type="submit">Remove Like</button>
+        </form>
+    }
+    else 
+    {
+        <form asp-action="LikeComment" asp-controller ="Home" method="post">
+            <input type="hidden" asp-for="CommentId" value="@c.CommentId">
+            <button type="submit">Like</button>
+        </form>
+    } *@

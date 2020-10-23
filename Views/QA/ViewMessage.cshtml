@@ -1,0 +1,31 @@
+@using ScamScraper.Models
+@model Comment
+<p>@ViewBag.thisMessage.MessageText</p>
+@if(@ViewBag.thisMessage.User == ViewBag.thisUser || ViewBag.thisUser.Admin == true)
+{
+    <form asp-action="DeleteMessage" method="post">
+        <input type="hidden" asp-for="MessageId" value="@ViewBag.thisMessage.MessageId">
+        <input type="submit" value="Delete" class="submit btn btn-info col-sm-2">
+    </form>
+}
+@foreach(Comment c in ViewBag.thisMessage.Comments)
+{       
+    <div class="nameCText">
+        <p>@c.User.FirstName @c.User.LastName</p>
+        <p>@c.Associations.Count</p>
+        <p>@c.CommentText</p>
+        @* <partial name="LikeCommentPartial" model="@Model.LikeComment"/> *@
+        <form asp-action="DeleteComment" method="post">
+            <input type="hidden" asp-for="CommentId" value="@c.CommentId">
+            <input type="submit" value="Delete" class="submit btn btn-info col-sm-2">
+        </form>
+    </div>
+}
+</ul>
+<form asp-action="AddComment" asp-controller="QA" method="post">
+    <textarea asp-for="CommentText" rows="4" cols="60"></textarea>
+    <span asp-validation-for="CommentText"></span><br>
+    <input type="hidden" asp-for="MessageId" value="@ViewBag.thisMessage.MessageId">
+    <input type="hidden" asp-for="UserId" value="@ViewBag.thisUserId">
+    <input type="submit" value="Comment" class="submit btn btn-info col-sm-2">
+</form>

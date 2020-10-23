@@ -85,17 +85,26 @@ body{
   height: 60px;
   background-color: greenyellow;
 }
+.saferes{
+  color: greenyellow;
+}
 .questionable{
   margin-right: 20px;
   width: 30px;
   height: 60px;
   background-color: orange;
 }
+.questionableres{
+  color: orange;
+}
 .notsafe{
   margin-right: 20px;
   width: 30px;
   height: 60px;
   background-color: orangered;
+}
+.notsaferes{
+  color: orangered;
 }
 .meterline{
   display: flex;

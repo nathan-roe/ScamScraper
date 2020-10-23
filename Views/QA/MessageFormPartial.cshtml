@@ -1,0 +1,9 @@
+@using ScamScraper.Models
+@model Message
+
+<form asp-action="AddMessage" asp-controller="QA" method="post">
+    <textarea asp-for="MessageText" rows="4" cols="60"></textarea>
+    <span asp-validation-for="MessageText"></span>
+    <input type="hidden" asp-for="UserId" value="@ViewBag.thisUserId"><br>
+    <input type="submit" value="Ask" class="submit btn btn-info col-sm-2">
+</form>

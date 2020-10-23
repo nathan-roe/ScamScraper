@@ -1,0 +1,46 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.main{
+    margin: auto 0px;
+    width: 700px;
+}
+
+label{
+    width: 175px;
+    margin-bottom: 20px;
+}
+
+h1{
+    color: aqua;
+    margin-bottom: 20px;
+}
+
+span{
+    color: rgb(255, 0, 76);
+    font-weight: bold;
+}
+
+form{
+    margin-bottom: 50px;
+}
+
+h2{
+    color: aqua;
+    margin-bottom: 20px;
+}
+textarea{
+    margin-bottom: 20px;
+}
+body{
+    /* background-color: rgb(218, 206, 218); */
+    background-image: url("../Images/background1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.nameCText{
+    color: aqua;
+}
