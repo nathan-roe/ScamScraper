@@ -133,3 +133,12 @@ h1{
   color: aqua;
   margin-bottom: 20px;
 }
+
+.card{
+  background-color: black;
+}
+
+.error{
+  color: rgb(255, 0, 76);
+}
+

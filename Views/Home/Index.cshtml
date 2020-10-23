@@ -21,38 +21,57 @@
 <body>
     <div class="container-fluid outer-container" style="width: 100%; height: 100%; justify-content: center; align-items: center;">
         <h1 class="title offset-sm-3">ScamScraper</h1>
-        <form asp-action="CheckUrl" asp-controller="Home" method="post" class="form">
+        
+            <form asp-action="CheckUrl" asp-controller="Home" method="post" class="form">
 
-            <div class="form-group row offset-sm-3">
-                <label for="" class="col-form-label-sm-2" style="margin-left: 1em; margin-right: 1em;">Type URL here: </label>
-                <input type="text" name="url" class="form-item form-control-sm col-sm-4 border border-info" required>
+                <div class="form-group row offset-sm-3">
+                    <label for="" class="col-form-label-sm-2" style="margin-left: 1em; margin-right: 1em;">Type URL here: </label>
+                    <input type="text" name="url" class="form-item form-control-sm col-sm-4 border border-info" required>
+                </div>
+        <div class="butact">
+        <div class="form-group row offset-sm-3 ">
+            <a class="btn btn-info col-sm-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Info</a>
+        </div>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <p>By using our web scraper you can increase your security online by checking links with ease. Simply input a url that you're concerned about and we'll process it, as well as the page it leads to, and make sure that it's safe for you to visit that page.</p><br>
+                <p>We're constantly looking for ways to update and improve our site, and make sure that you're using the best tool possible. If you run into any problems on our site, or just have any general questions, you can visit our Questions and Answers page here.</p><br>
+                <p>This tool is completely free to use and by using ScamScraper you're accepting our terms of service.</p><br>
+                <p>Thank you for using ScamScraper!</p><br>
             </div>
-
-            <div class="form-group row offset-sm-3">
-                <input type="submit" value="Evaluate" class="submit btn btn-info col-sm-2">
+        </div>
+        <div class="form-group row offset-sm-3 ">
+            <input type="submit" value="Evaluate" class="submit btn btn-info col-sm-2">
+        </div>
+        </form>
+        <form asp-action="Reset" asp-controller="Home" method="post" class="form">
+            <div class="row form-group offset-sm-3 ">
+                <input type="submit" value="Reset" class="submit btn btn-info col-sm-2">
             </div>
         </form>
+        </div>
+        <p class="error offset-sm-3">@ViewBag.error</p>
         @if(ViewBag.Score > 0)
         {
             <p class="testedurl offset-sm-3">Scanned @ViewBag.Url</p>
             <div class="meter offset-sm-3">
                 <div class="meterline">
                     <div class="safe"></div>
-                    @if(ViewBag.Score <= 1)
+                    @if(ViewBag.Score <= 4)
                     {
                         <h3 class="saferes">@ViewBag.Response</h3><br>
                     }
                 </div>
                 <div class="meterline">
                     <div class="questionable"></div>
-                    @if(ViewBag.Score > 1 && ViewBag.Score <=5)
+                    @if(ViewBag.Score > 4 && ViewBag.Score <=7)
                     {
                         <h3 class="questionableres">@ViewBag.Response</h3><br>
                     }
                 </div>
                 <div class="meterline">
                     <div class="notsafe"></div>
-                    @if(ViewBag.Score > 5)
+                    @if(ViewBag.Score > 7)
                     {
                         <h3 class="notsaferes">@ViewBag.Response</h3><br>
                     }
@@ -70,11 +89,7 @@
             @* <img src="@ViewBag.ScreenShot"> *@
         </div>
         }
-        <form asp-action="Reset" asp-controller="Home" method="post" class="form">
-            <div class="row form-group offset-sm-3">
-                <input type="submit" value="Reset" class="submit btn btn-info col-sm-2">
-            </div>
-        </form>
+        
         <div class="loader"></div>
     </div>
 </body>

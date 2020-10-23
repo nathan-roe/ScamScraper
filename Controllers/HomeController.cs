@@ -40,19 +40,20 @@ namespace ScamScraper.Controllers
             ViewBag.HasError = HttpContext.Session.GetString("error");
             ViewBag.HasUrlScript = HttpContext.Session.GetString("UrlScript");
             ViewBag.HasUrlIFrame = HttpContext.Session.GetString("UrlIFrame");
+            ViewBag.error = HttpContext.Session.GetString("error");
             // ViewBag.ScreenShot = "wwwroot/Images/screenshot.png";
             // ViewBag.AHHH = HttpContext.Session.GetString("AHHH");
             ViewBag.Url = HttpContext.Session.GetString("Url");
             ViewBag.Score = HttpContext.Session.GetInt32("Score");
-            if(HttpContext.Session.GetInt32("Score") <= 1)
+            if(HttpContext.Session.GetInt32("Score") <= 4)
             {
                 HttpContext.Session.SetString("Response", "This link is safe!");
             }
-            if(HttpContext.Session.GetInt32("Score") > 1 && HttpContext.Session.GetInt32("Score") <= 5)
+            if(HttpContext.Session.GetInt32("Score") > 4 && HttpContext.Session.GetInt32("Score") <= 7)
             {
                 HttpContext.Session.SetString("Response", "This link is suspicious");
             }
-            if(HttpContext.Session.GetInt32("Score") > 5)
+            if(HttpContext.Session.GetInt32("Score") > 7)
             {
                 HttpContext.Session.SetString("Response", "This link is not safe!");
             }
@@ -242,7 +243,7 @@ namespace ScamScraper.Controllers
             // Console.ReadKey();
             count ++;
             // HttpContext.Session.SetString("Response", "This link is safe!");
-            HttpContext.Session.SetInt32("Score", count);
+            HttpContext.Session.SetInt32("Score", count); //MOVED SCORE COUNT
             HttpContext.Session.SetInt32("ExternalLink", ExternalLinksCount);
             Console.WriteLine(count);
             return count;

@@ -39,7 +39,7 @@ namespace ScamScraper.Controllers
         [HttpGet("qa/register")]
         public IActionResult RegisterIndex()
         {
-            return View("RegisterIndex");
+                return View("RegisterIndex");
         }
         [HttpPost("register")]
         public IActionResult Register(User thisUser)
